@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import SignInUpNav from "../SignInUpNav/SignInUpNav"
 import { useState } from "react";
