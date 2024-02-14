@@ -16,8 +16,8 @@ const SignIn = () => {
             username,
             password,
         })
-        .then(res => {
-            if (res.data) {
+        .then(({data}) => {
+            if (data) {
                 setErrorMsg("");
                 navigate("/feed");
             }

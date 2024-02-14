@@ -1,29 +1,42 @@
+import axios from "axios";
 import Footer from "../Footer/Footer"
 import SignInUpNav from "../SignInUpNav/SignInUpNav"
+import { useState } from "react";
 
 const SignUp = () => {
+    const [profileImage, setProfileImage] = useState("../../../../images/ProfileImageUpload/defaultOther.jpg");
+    const upload = async (formData) => {
+        const { data } = await axios.post("http://localhost:3000/upload",formData,{
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        })
+
+        if (data.success) {
+            setProfileImage(data.url);
+        }
+        else {
+            console.log("Check BackEnd");
+        }
+    }
+    const fileChange = async (e) => {
+        let formData = new FormData();
+        formData.append("file",e.target.files[0]);
+        await upload(formData);
+    }
     const imageUpload = () => {
-        let form = document.createElement("form");
-        form.enctype = "multipart/form-data";
         let input = document.createElement("input");
         input.type = "file";
-        form.append(input);
-        let submit = document.createElement("button");
-        submit.type = "submit";
-        form.append(submit);
+        document.body.append(input);
+        input.onchange = fileChange;
         input.click();
-        input.addEventListener("change", () => {
-            document.body.append(form);
-            submit.click();
-            form.remove();
-        })
     }
     return (
         <div className="flex flex-col justify-between items-center">
             <SignInUpNav/>
             <div className="flex flex-col justify-between gap-5 items-center w-full relative top-20">
                 <form className="flex flex-col gap-7 p-4 w-2/6 backdrop-blur-sm border-2 border-black border-solid rounded-3xl">
-                    <img onClick={imageUpload} className="h-40 w-40 object-center rounded-full border-2 border-black border-solid relative left-1/2 -translate-x-1/2" src="../../../../images/ProfileImageUpload/defaultOther.jpg" alt="Profile Photo"/>
+                    <img onClick={imageUpload} className="h-40 w-40 object-center rounded-full border-2 border-black border-solid relative left-1/2 -translate-x-1/2" src={profileImage} alt="Profile Photo"/>
                     <div className="flex justify-between gap-3">
                         <input className="py-1 px-3 w-full bg-gray-600 bg-opacity-80 border-2 border-black border-solid rounded-full placeholder:text-white placeholder:opacity-80" type="text" placeholder="First"/>
                         <input className="py-1 px-3 w-full bg-gray-600 bg-opacity-80 border-2 border-black border-solid rounded-full placeholder:text-white placeholder:opacity-80" type="text" placeholder="Last (optional)"/>

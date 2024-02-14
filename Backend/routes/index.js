@@ -6,6 +6,8 @@ const ideaModel = require("./ideas");
 const passport = require("passport");
 const localStrategy = require("passport-local");
 const upload = require("./multer");
+const uploadOnCloudinary = require('./cloudinary');
+const fs = require("fs");
 
 router.use(cors({ origin: 'http://localhost:5173' }));
 
@@ -110,6 +112,35 @@ router.post("/registerProfilePhoto", upload.single("file"),function(req,res) {
 	req.flash("registerProfilePhoto",req.file.filename);
 	res.redirect("/createNewAccount");
 })
+
+// router.post("/upload",upload.single("file"), async (req,res,next) => {
+// 	console.log(req.body);
+// 	const localFileName = req.file.filename;
+// 	const cloudFile = await uploadOnCloudinary(localFileName);
+// 	fs.unlinkSync(localFileName);
+// 	res.json({
+// 		success: true,
+// 		url: cloudFile.url,
+// 	});
+// })
+
+router.post("/upload", upload.single("file"), async (req, res, next) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: "No file uploaded" });
+        }
+        const localFileName = req.file.path;
+        const cloudFile = await uploadOnCloudinary(localFileName);
+		fs.unlinkSync(localFileName);
+		res.json({
+            success: true,
+            url: cloudFile.url,
+        });
+    } catch (error) {
+        console.error("Error during file upload:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
 
 router.post("/createNewAccount",function(req,res){
 	let defaultProfileImage = "defaultOther.jpg";
