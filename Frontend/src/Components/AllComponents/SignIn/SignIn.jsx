@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import SignInUpNav from "../SignInUpNav/SignInUpNav"
 import { useState } from "react";
@@ -31,7 +31,6 @@ const SignIn = () => {
     }
     return (
         <div className="h-lvh w-lvw flex flex-col justify-between items-center">
-            <Link className="fixed -top-40" id="feed" to="/feed"></Link>
             <SignInUpNav/>
             <form onSubmit={login} className="relative top-1/2 -translate-y-1/2 h-96 w-80 flex flex-col justify-between items-center gap-7 border-2 border-black border-solid rounded-3xl p-3 py-5 backdrop-blur-sm">
                 <h3 className="text-4xl font-semibold mb-5"> Log In </h3>
