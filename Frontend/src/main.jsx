@@ -4,6 +4,7 @@ import App from './App.jsx'
 import './global.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromChildren } from 'react-router-dom'
 import { 
+	Feed,
 	SignIn, 
 	SignUp,
 } from './Components/index.js'
@@ -13,6 +14,7 @@ const router = createBrowserRouter(
 		<Route path="/" element={<App/>}>
 			<Route path="" element={<SignIn/>}/>
 			<Route path="/signUp" element={<SignUp/>}/>
+			<Route path="/feed" element={<Feed/>}/>
 		</Route>
 	)
 )

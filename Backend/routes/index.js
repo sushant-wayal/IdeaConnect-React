@@ -1,10 +1,13 @@
 var express = require('express');
 var router = express.Router();
+var cors = require("cors");
 const userModel = require("./users");
 const ideaModel = require("./ideas");
 const passport = require("passport");
 const localStrategy = require("passport-local");
 const upload = require("./multer");
+
+router.use(cors({ origin: 'http://localhost:5173' }));
 
 passport.use(new localStrategy(userModel.authenticate()));
 
@@ -157,6 +160,16 @@ router.post("/login", passport.authenticate("local",{
 	failureRedirect: '/',
 	failureFlash: true,
 }),function(req,res){})
+
+router.post("/api/login", (req,res,next) => {
+	passport.authenticate("local", (err,user) => {
+		if (err || !user) {
+			return res.json(false);
+		}
+		// if (!user) res.json(false);
+		return res.json(true);
+	})(req,res,next);
+})
 
 router.get("/logout", function(req,res,next) {
 	req.logout(function(err){
