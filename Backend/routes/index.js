@@ -186,6 +186,38 @@ router.post("/createNewAccount",function(req,res){
 	})
 })
 
+router.post("/register",(req,res) => {
+	let userData = new userModel({
+		username: req.body.username,
+		firstName: req.body.firstName,
+		lastName: req.body.secondName,
+		contryCode: req.body.countryCode,
+		phoneNumber: req.body.phoneNumber,
+		email: req.body.email,
+		DOB: req.body.dob,
+		gender: req.body.gender,
+		secret: req.body.nickname,
+		profileImage: req.body.profileImage,
+		followers: 0,
+		following: 0,
+		noOfIdeas: 0
+	})
+	userModel.register(userData, req.body.password)
+	.then(() => {
+		passport.authenticate("local")(req,res,() => {
+			res.json({
+				success: true,
+			})
+		})
+	})
+	.catch(error => {
+		res.json({
+			success: false,
+			error: error,
+		})
+	})
+})
+
 router.post("/login", passport.authenticate("local",{
 	successRedirect: "/ideas",
 	failureRedirect: '/',
@@ -197,7 +229,6 @@ router.post("/api/login", (req,res,next) => {
 		if (err || !user) {
 			return res.json(false);
 		}
-		// if (!user) res.json(false);
 		return res.json(true);
 	})(req,res,next);
 })

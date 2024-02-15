@@ -8,12 +8,13 @@ import {
 	SignIn, 
 	SignUp,
 } from './Components/index.js'
+import { fecthData } from './Components/AllComponents/SignUp/SignUp.jsx'
 
 const router = createBrowserRouter(
 	createRoutesFromChildren(
 		<Route path="/" element={<App/>}>
 			<Route path="" element={<SignIn/>}/>
-			<Route path="/signUp" element={<SignUp/>}/>
+			<Route loader={fecthData} path="/signUp" element={<SignUp/>}/>
 			<Route path="/feed" element={<Feed/>}/>
 		</Route>
 	)
