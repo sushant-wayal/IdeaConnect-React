@@ -104,7 +104,7 @@ const SignUp = () => {
             profileImage,
         });
         if (data.success) {
-            navigate("/feed");
+            navigate("/ideas");
         }
         else {
             alert("Something went wrong. Please try Again");
@@ -161,7 +161,7 @@ const SignUp = () => {
                     <input value={nickname} onChange={(e) => setNickname(e.target.value)} className="py-1 px-3 w-60 bg-gray-600 bg-opacity-80 border-2 border-black border-solid rounded-full placeholder:text-white placeholder:opacity-80" type="text" placeholder="Nickname"/>
                     <button type="submit" className="p-1 border-2 border-black border-solid rounded-2xl relative left-1/2 -translate-x-1/2 w-24"> Register </button>
                 </form>
-                <Footer/>
+                <Footer styling={""}/>
             </div>
         </div>
     )

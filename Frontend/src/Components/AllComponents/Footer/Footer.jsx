@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
-const Footer = () => {
+const Footer = ({ styling }) => {
     return (
-        <div className="w-full flex justify-between py-3 px-2 items-center">
+        <div className={`w-full flex justify-between py-3 px-2 items-center ${styling}`}>
             <div>
                 © IdeaConnect | 2024
             </div>

@@ -19,7 +19,7 @@ const SignIn = () => {
         .then(({data}) => {
             if (data) {
                 setErrorMsg("");
-                navigate("/feed");
+                navigate("/ideas");
             }
             else {
                 setErrorMsg("Invalid Username or Password. Try Again");
@@ -46,7 +46,7 @@ const SignIn = () => {
                 <button className="p-2 border-2 border-black border-solid rounded-2xl" type="submit"> Log in </button>
                 <Link className="underline" to="/signUp"> <i> Create New Account </i> </Link>
             </form>
-            <Footer/>
+            <Footer styling={""}/>
         </div>
     )
 }
