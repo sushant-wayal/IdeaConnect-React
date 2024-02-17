@@ -12,13 +12,14 @@ const SignIn = () => {
     const navigate = useNavigate()
     const login = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:3000/api/login", {
+        axios.post("http://localhost:3000/login", {
             username,
             password,
         })
         .then(({data}) => {
-            if (data) {
+            if (data.authenticated) {
                 setErrorMsg("");
+                localStorage.setItem("token",data.token);
                 navigate("/ideas");
             }
             else {

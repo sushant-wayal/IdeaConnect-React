@@ -103,7 +103,8 @@ const SignUp = () => {
             nickname,
             profileImage,
         });
-        if (data.success) {
+        if (data.authenticated) {
+            localStorage.setItem("token",data.token);
             navigate("/ideas");
         }
         else {

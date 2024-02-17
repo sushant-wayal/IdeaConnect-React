@@ -9,13 +9,14 @@ import {
 	SignUp,
 } from './Components/index.js'
 import { fecthData } from './Components/AllComponents/SignUp/SignUp.jsx'
+import { getFeed } from './Components/AllComponents/Ideas/Ideas.jsx'
 
 const router = createBrowserRouter(
 	createRoutesFromChildren(
 		<Route path="/" element={<App/>}>
 			<Route path="" element={<SignIn/>}/>
 			<Route loader={fecthData} path="/signUp" element={<SignUp/>}/>
-			<Route path="/ideas" element={<Ideas/>}/>
+			<Route loader={getFeed} path="/ideas" element={<Ideas/>}/>
 		</Route>
 	)
 )
