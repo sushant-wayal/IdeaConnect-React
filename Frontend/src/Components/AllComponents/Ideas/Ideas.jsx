@@ -20,7 +20,12 @@ const Ideas = () => {
                 <TopNav/>
                 <div id="ideas" className="fixed right-2 h-[calc(90vh-22px)] top-[calc(10vh+16px)] w-[calc(100vw*(5.4/6.5))] flex justify-start gap-4 p-2 pb-0 flex-wrap overflow-scroll">
                     {ideas.map(val => (
-                        <Idea key={val[0]} idea={val[2]}/>
+                        <Idea key={val.ideaId} thisIdea={{
+                            idea: val.idea,
+                            profileImage: val.profileImage,
+                            intrested: val.intrested,
+                            ideaOf: val.ideaOf,
+                        }}/>
                     ))}
                     <Footer styling={"border-2 border-black border-solid rounded-2xl pr-5 backdrop-blur-sm"}/>
                 </div>
