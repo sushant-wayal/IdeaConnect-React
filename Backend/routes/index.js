@@ -107,35 +107,34 @@ const isLoggedIn = (req,res,next) => {
 }
 
 router.get("/ideas/feed", isLoggedIn, async (req,res) => {
-	if (req.user) {
-		const currUser = await userModel.findById(req.user.userId);
-		let ideas = [];
-		for (let following of currUser.followingList) {
-			const followedUser = await userModel.findById(following);
-			for (let idea of followedUser.ideas) {
-				const currIdea = await ideaModel.findById(idea);
-				const ideaOf = await userModel.findById(currIdea.ideaOf);
-				let intrested = false;
-				for (let intrestedUser of currIdea.intrestedUser) {
-					if (intrestedUser.toString() == currUser._id.toString()) {
-						intrested = true;
-						break;
-					}
+	const currUser = await userModel.findById(req.user.userId);
+	let ideas = [];
+	for (let following of currUser.followingList) {
+		const followedUser = await userModel.findById(following);
+		for (let idea of followedUser.ideas) {
+			const currIdea = await ideaModel.findById(idea);
+			const ideaOf = await userModel.findById(currIdea.ideaOf);
+			let intrested = false;
+			for (let intrestedUser of currIdea.intrestedUser) {
+				if (intrestedUser.toString() == currUser._id.toString()) {
+					intrested = true;
+					break;
 				}
-				ideas.push([currIdea,ideaOf.profileImage,intrested]);
 			}
+			ideas.push({
+				idea: currIdea,
+				profileImage: ideaOf.profileImage,
+				intrested: intrested,
+				ideaOf: ideaOf.username,
+				ideaId: idea,
+			});
 		}
-		ideas.sort((a,b) => b[0].date-a[0].date);
-		res.json({
-			authenticated: true,
-			ideas,
-		})
 	}
-	else {
-		res.json({
-			authenticated: false,
-		})
-	}
+	ideas.sort((a,b) => b.idea.date-a.idea.date);
+	res.json({
+		authenticated: true,
+		ideas,
+	})
 })
 
 module.exports = router;
