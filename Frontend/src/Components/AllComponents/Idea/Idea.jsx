@@ -1,5 +1,22 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 const Idea = ({ thisIdea }) => {
     const { idea, profileImage, intrested, ideaOf } = thisIdea;
+    const [username,setUsername] = useState("");
+    useEffect(() => {
+        const getUsername = async () => {
+            const { data } = await axios.get("http://localhost:3000/activeUser",{
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+            if (data.authenticated) {
+                setUsername(data.username);
+            }
+        };
+        getUsername();
+    })
     return (
         <div className="w-[302px] h-[450px] border-2 border-black border-solid backdrop-blur-sm rounded-2xl p-2 flex flex-col gap-2">
             <div className="flex justify-center items-center relative border-b-2 border-b-black border-b-solid">
@@ -14,7 +31,7 @@ const Idea = ({ thisIdea }) => {
                     <p>Category</p>
                 </div>
                 <div className="absolute top-2 right-2 px-2 py-1 bg-gray-600 rounded-xl">
-                    <p>{intrested ? "Intrested" : "Intrested ?"}</p>
+                    <p>{username == ideaOf ? `${idea.intrested} Intrested` : intrested ? "Intrested" : "Intrested ?"}</p>
                 </div>
             </div>
             <div className="flex flex-col gap-0">

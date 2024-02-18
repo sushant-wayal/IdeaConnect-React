@@ -1,4 +1,6 @@
-import { NavLink } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 const SideNav = () => {
     const active = (isActive) => {
@@ -8,20 +10,34 @@ const SideNav = () => {
         }
         return style;
     }
+    const [username,setUsername] = useState("");
+    useEffect(() => {
+        const getUsername = async () => {
+            const { data } = await axios.get("http://localhost:3000/activeUser",{
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+            if (data.authenticated) {
+                setUsername(data.username);
+            }
+        };
+        getUsername();
+    })
     return (
         <div className="h-[calc(98vh)] fixed left-0 top-0 p-3 flex flex-col justify-between w-[calc(100vw/6.5)] m-2 border-2 border-black border-solid rounded-2xl backdrop-blur-sm">
             <div className="flex flex-col justify-center gap-5 w-full">
-                <NavLink className={({isActive}) => active(isActive)} to="../ideas"> Feed </NavLink>
-                <NavLink className={({isActive}) => active(isActive)} to="../myIdeas"> My Ideas </NavLink>
-                <NavLink className={({isActive}) => active(isActive)} to="../invitedIdeas"> Invited Ideas </NavLink>
-                <NavLink className={({isActive}) => active(isActive)} to="../exploreIdeas"> Explore Ideas </NavLink>
-                <NavLink className={({isActive}) => active(isActive)} to="../collaboratedIdeas"> Collaborated Ideas </NavLink>
-                <NavLink className={({isActive}) => active(isActive)} to="../intrestedIdeas"> Intrested Ideas </NavLink>
+                <NavLink className={({isActive}) => active(isActive)} to="/ideas"> Feed </NavLink>
+                <NavLink className={({isActive}) => active(isActive)} to="/myIdeas"> My Ideas </NavLink>
+                <NavLink className={({isActive}) => active(isActive)} to="/invitedIdeas"> Invited Ideas </NavLink>
+                <NavLink className={({isActive}) => active(isActive)} to="/exploreIdeas"> Explore Ideas </NavLink>
+                <NavLink className={({isActive}) => active(isActive)} to="/collaboratedIdeas"> Collaborated Ideas </NavLink>
+                <NavLink className={({isActive}) => active(isActive)} to="/intrestedIdeas"> Intrested Ideas </NavLink>
             </div>
             <div className="flex flex-col justify-center gap-5 w-full">
-                <NavLink className={({isActive}) => active(isActive)} to="../logout"> Logout </NavLink>
-                <NavLink className={({isActive}) => active(isActive)} to="/profile/<%= user.username %>"> Profile </NavLink>
-                <NavLink className={({isActive}) => active(isActive)} to="../settings"> Settings </NavLink>
+                <NavLink className={({isActive}) => active(isActive)} to="/logout"> Logout </NavLink>
+                <NavLink className={({isActive}) => active(isActive)} to={`/profile/${username}`}> Profile </NavLink>
+                <NavLink className={({isActive}) => active(isActive)} to="/settings"> Settings </NavLink>
             </div>
         </div>
     )

@@ -8,7 +8,6 @@ import { useLoaderData } from "react-router-dom";
 
 const Ideas = () => {
     const data = useLoaderData();
-    console.log(data.authenticated);
     let ideas = [];
     if (data.authenticated) {
         ideas = data.ideas;

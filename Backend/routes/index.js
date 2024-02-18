@@ -106,6 +106,27 @@ const isLoggedIn = (req,res,next) => {
 	})
 }
 
+router.get("/activeUser",(req,res,next) => {
+	const token = req.headers.authorization;
+	if (!token) {
+		return res.status(401).json({
+			authenticated: false,
+			message: "Authorization Token is required",
+		})
+	}
+	jwt.verify(token.split(' ')[1], jwtSecret, (error, decode) => {
+		if (error) {
+			return res.json({
+				authenticated: false,
+			})
+		}
+		return res.json({
+			authenticated: true,
+			username: decode.username,
+		})
+	})
+});
+
 router.get("/ideas/feed", isLoggedIn, async (req,res) => {
 	const currUser = await userModel.findById(req.user.userId);
 	let ideas = [];
@@ -133,6 +154,61 @@ router.get("/ideas/feed", isLoggedIn, async (req,res) => {
 	ideas.sort((a,b) => b.idea.date-a.idea.date);
 	res.json({
 		authenticated: true,
+		ideas,
+	})
+})
+
+router.get("/profile/:username", async (req,res) => {
+	const username = req.params.username;
+	const user = await userModel.findOne({ username });
+	res.json(user);
+})
+
+router.get("/checkFollow/:activeUsername/:username", async (req,res) => {
+	const { followingList } = await userModel.findOne({
+		username: req.params.activeUsername,
+	})
+	for (let following of followingList) {
+		const { username } = await userModel.findById(following);
+		if (username == req.params.username) {
+			return res.json({
+				follow: true,
+			})
+		}
+	}
+	return res.json({
+		follow: false,
+	})
+})
+
+router.get("/ideas/:username/:activeUsername", async (req,res) => {
+	const currUser = await userModel.findOne({
+		username: req.params.username,
+	});
+	const activeUser = await userModel.findOne({
+		username: req.params.activeUsername,
+	})
+	let ideas = [];
+	for (let idea of currUser.ideas) {
+		const currIdea = await ideaModel.findById(idea);
+		const ideaOf = await userModel.findById(currIdea.ideaOf);
+		let intrested = false;
+		for (let intrestedUser of currIdea.intrestedUser) {
+			if (intrestedUser.toString() == activeUser._id.toString()) {
+				intrested = true;
+				break;
+			}
+		}
+		ideas.push({
+			idea: currIdea,
+			profileImage: ideaOf.profileImage,
+			intrested: intrested,
+			ideaOf: ideaOf.username,
+			ideaId: idea,
+		});
+	}
+	ideas.sort((a,b) => b.idea.date-a.idea.date);
+	res.json({
 		ideas,
 	})
 })

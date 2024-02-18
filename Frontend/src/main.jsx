@@ -5,6 +5,7 @@ import './global.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromChildren } from 'react-router-dom'
 import { 
 	Ideas,
+	Profile,
 	SignIn, 
 	SignUp,
 } from './Components/index.js'
@@ -17,6 +18,7 @@ const router = createBrowserRouter(
 			<Route path="" element={<SignIn/>}/>
 			<Route loader={fecthData} path="/signUp" element={<SignUp/>}/>
 			<Route loader={getFeed} path="/ideas" element={<Ideas/>}/>
+			<Route path="/profile/:username" element={<Profile/>}/>
 		</Route>
 	)
 )
