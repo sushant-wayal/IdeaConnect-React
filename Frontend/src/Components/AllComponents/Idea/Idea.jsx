@@ -25,8 +25,8 @@ const Idea = ({ thisIdea }) => {
                     {idea.title}
                 </p>
             </div>
-            <div className="w-full rounded-xl relative h-[400px]">
-                <img className="w-full h-full rounded-xl" src={idea.media} alt="media"/>
+            <div className="w-full rounded-xl relative h-[280px] flex-shrink">
+                <img className="w-full h-full rounded-xl flex-shrink" src={idea.media} alt="media"/>
                 <div className="absolute top-2 left-2 px-2 py-1 bg-gray-600 rounded-xl">
                     <p>Category</p>
                 </div>
@@ -35,7 +35,7 @@ const Idea = ({ thisIdea }) => {
                 </div>
             </div>
             <div className="flex flex-col gap-0">
-                <p className="overflow-y-hidden border-2 border-black border-solid border-b-0 rounded-t-2xl p-[3px] leading-5">
+                <p className="overflow-y-hidden border-2 border-black border-solid border-b-0 rounded-t-2xl p-[3px] leading-5 h-[50px]">
                     {idea.description}
                 </p>
                 <div className="bg-black w-full h-2"></div>
