@@ -213,4 +213,27 @@ router.get("/ideas/:username/:activeUsername", async (req,res) => {
 	})
 })
 
+router.post("/publishIdea", async (req,res) => {
+	const currUser = await userModel.findOne({
+		username: req.body.username,
+	})
+	const newIdea = await ideaModel.create({
+		ideaOf: currUser._id,
+		title: req.body.title,
+		categories: req.body.categories,
+		media: req.body.media,
+		description: req.body.description,
+		steps: req.body.steps,
+		progress: req.body.progress,
+		createdBy: currUser.username,
+	})
+	currUser.ideas.unshift(newIdea._id);
+	currUser.noOfIdeas += 1;
+	await currUser.save();
+	await newIdea.save();
+	res.json({
+		success: true,
+	})
+})
+
 module.exports = router;

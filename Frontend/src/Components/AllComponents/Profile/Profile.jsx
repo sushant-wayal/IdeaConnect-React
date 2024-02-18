@@ -69,7 +69,7 @@ const Profile = () => {
                         {activeUsername == username ?
                         <>
                             <Link className="absolute top-2 right-2 bg-gray-500 border-2 border-black border-solid py-1 px-2 rounded-2xl">Edit Profile</Link>
-                            <Link className="absolute top-48 right-1/4 bg-gray-500 border-2 border-black border-solid py-1 px-2 rounded-2xl">Publish New Idea</Link>
+                            <Link className="absolute top-48 right-1/4 bg-gray-500 border-2 border-black border-solid py-1 px-2 rounded-2xl" to="/newIdea">Publish New Idea</Link>
                         </>
                         :
                         <>

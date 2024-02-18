@@ -7,6 +7,7 @@ import SideNav from "./AllComponents/SideNav/SideNav";
 import TopNav from "./AllComponents/TopNav/TopNav";
 import Idea from "./AllComponents/Idea/Idea";
 import Profile from "./AllComponents/Profile/Profile";
+import NewIdea from "./AllComponents/NewIdea/NewIdea";
 
 export {
     SignInUpNav,
@@ -18,4 +19,5 @@ export {
     TopNav,
     Idea,
     Profile,
+    NewIdea,
 }
