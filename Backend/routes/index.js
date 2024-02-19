@@ -164,6 +164,12 @@ router.get("/profile/:username", async (req,res) => {
 	res.json(user);
 })
 
+router.get("/userInfo/:userId", async (req,res) => {
+	const { userId } = req.params;
+	const user = await userModel.findById(userId);
+	res.json(user);
+})
+
 router.get("/checkFollow/:activeUsername/:username", async (req,res) => {
 	const { followingList } = await userModel.findOne({
 		username: req.params.activeUsername,
@@ -233,6 +239,73 @@ router.post("/publishIdea", async (req,res) => {
 	await newIdea.save();
 	res.json({
 		success: true,
+	})
+})
+
+router.get("/updateProgress/:ideaId/:newProgress",async (req,res) => {
+	const { ideaId, newProgress } = req.params;
+	const idea = await ideaModel.findById(ideaId);
+	idea.progress = newProgress;
+	await idea.save();
+	res.json({
+		success: true,
+	})
+})
+
+router.get("/checkLike/:ideaId/:username",async (req,res) => {
+	const { ideaId, username } = req.params;
+	const idea = await ideaModel.findById(ideaId);
+	for (let user of idea.likedBy) {
+		const userData = await userModel.findById(user);
+		if (userData.username == username) {
+			return res.json({
+				liked: true,
+			})
+		}
+	}
+	res.json({
+		liked: false,
+	})
+});
+
+router.get("/likeIdea/:ideaId/:username",async (req,res) => {
+	const { ideaId, username } = req.params;
+	const idea = await ideaModel.findById(ideaId);
+	const user = await userModel.findOne({
+		username,
+	})
+	let liked = false;
+	for (let user of idea.likedBy) {
+		const userData = await userModel.findById(user);
+		if (userData.username == username) {
+			liked = true;
+			break;
+		}
+	}
+	if (!liked) {
+		idea.likes++;
+		idea.likedBy.unshift(user._id);
+	}
+	else {
+		idea.liked--;
+		idea.likedBy.splice(user._id,1);
+	}
+	idea.save();
+	res.json({
+		success: true,
+		liked,
+	})
+})
+
+router.get("/likedBy/:ideaId",async (req,res) => {
+	const { ideaId } = req.params;
+	const idea = await ideaModel.findById(ideaId);
+	let likedBy= [];
+	for (let user of idea.likedBy) {
+		likedBy.push(await userModel.findById(user));
+	}
+	res.json({
+		likedBy,
 	})
 })
 
