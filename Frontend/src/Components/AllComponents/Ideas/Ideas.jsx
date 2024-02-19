@@ -4,14 +4,21 @@ import TopNav from "../TopNav/TopNav";
 import "./Ideas.css"
 import Footer from "../Footer/Footer";
 import axios from "axios";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Ideas = () => {
     const data = useLoaderData();
+    const navigate = useNavigate();
     let ideas = [];
     if (data.authenticated) {
         ideas = data.ideas;
     }
+    useEffect(() => {
+        if (!data.authenticated) {
+            navigate("/");
+        }
+    })
     if (ideas.length > 0) {
         return (
             <div>
