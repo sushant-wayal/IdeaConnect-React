@@ -11,7 +11,7 @@ const upload = require("./multer");
 const uploadOnCloudinary = require('./cloudinary');
 const fs = require("fs");
 
-router.use(cors({ origin: 'http://localhost:5173' }));
+router.use(cors({ origin: '*' }));
 
 passport.use(new localStrategy(userModel.authenticate()));
 
