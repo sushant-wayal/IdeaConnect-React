@@ -44,7 +44,7 @@ const SignUp = () => {
     }
 
     const upload = async (formData) => {
-        const { data } = await axios.post("http://localhost:3000/upload",formData,{
+        const { data } = await axios.post("http://172.16.17.183:3000/upload",formData,{
             headers: {
                 "Content-Type": "multipart/form-data",
             }
@@ -90,7 +90,7 @@ const SignUp = () => {
     }
     const register = async (e) => {
         e.preventDefault();
-        const { data } = await axios.post("http://localhost:3000/register",{
+        const { data } = await axios.post("http://172.16.17.183:3000/register",{
             username,
             password,
             firstName,
@@ -115,7 +115,7 @@ const SignUp = () => {
         <div className="flex flex-col justify-between items-center">
             <SignInUpNav/>
             <div className="flex flex-col justify-between gap-5 items-center w-full relative top-20">
-                <form onSubmit={register} className="flex flex-col gap-7 p-4 w-2/6 backdrop-blur-sm border-2 border-black border-solid rounded-3xl">
+                <form onSubmit={register} className="flex flex-col gap-7 p-4 w-[max(36%,350px)] backdrop-blur-sm border-2 border-black border-solid rounded-3xl">
                     <img onClick={imageUpload} className="h-40 w-40 object-cover rounded-full border-2 border-black border-solid relative left-1/2 -translate-x-1/2 cursor-pointer" src={profileImage} alt="Profile Photo"/>
                     <div className="flex justify-between gap-3">
                         <input onChange={(e) => setFirstName(e.target.value)} value={firstName} className="py-1 px-3 w-full bg-gray-600 bg-opacity-80 border-2 border-black border-solid rounded-full placeholder:text-white placeholder:opacity-80" type="text" placeholder="First"/>
@@ -148,8 +148,8 @@ const SignUp = () => {
                             <option key={country}>{country}</option>
                         ))}
                     </select>
-                    <div className="flex flex-col justify-center gap-3">
-                        <div className="flex justify-start gap-3">
+                    <div className="flex flex-col justify-center gap-8">
+                        <div className="flex flex-col sm:flex-row justify-start gap-1 sm:gap-3">
                             <select value={countryCode} onChange={(e) => setCountryCode(e.target.value)} className="py-1 px-3 w-52 bg-gray-600 bg-opacity-80 border-2 border-black border-solid rounded-full">
                                 {countryCodes.map(thisCode => (
                                     <option disabled={thisCode[1]} key={thisCode[0]}>{thisCode[0]}</option>

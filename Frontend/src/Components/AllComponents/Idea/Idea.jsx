@@ -15,14 +15,14 @@ const Idea = ({ thisIdea }) => {
     const likeRef = useRef(null);
     useEffect(() =>{
         const checkLike = async () => {
-            const { data } = await axios.get(`http://localhost:3000/checkLike/${idea._id}/${username}`);
+            const { data } = await axios.get(`http://172.16.17.183:3000/checkLike/${idea._id}/${username}`);
             setIsLiked(data.liked);
         }
         checkLike();
     })
     useEffect(() => {
         const getUsername = async () => {
-            const { data } = await axios.get("http://localhost:3000/activeUser",{
+            const { data } = await axios.get("http://172.16.17.183:3000/activeUser",{
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -87,7 +87,7 @@ const Idea = ({ thisIdea }) => {
                 })
                 intrestEle.removeChild(intrestEle.firstChild);
                 for (let intrestedUser of idea.intrestedUser) {
-                    const { data } = await axios.get(`http://localhost:3000/userInfo/${intrestedUser}`);
+                    const { data } = await axios.get(`http://172.16.17.183:3000/userInfo/${intrestedUser}`);
                     const { profileImage, username } = data;
                     let thisUser = document.createElement("div");
                     thisUser.classList.add("flex","px-2","py-1","gap-3","items-center");
@@ -201,7 +201,7 @@ const Idea = ({ thisIdea }) => {
                         progressDone++;
                     }
                     let Username = "";
-                    const { data } = await axios.get("http://localhost:3000/activeUser",{
+                    const { data } = await axios.get("http://172.16.17.183:3000/activeUser",{
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem("token")}`
                         }
@@ -237,7 +237,7 @@ const Idea = ({ thisIdea }) => {
                         }
                     }
                 }
-                await axios.get(`http://localhost:3000/updateProgress/${idea._id}/${newProgress}`);
+                await axios.get(`http://172.16.17.183:3000/updateProgress/${idea._id}/${newProgress}`);
                 setIdeaProgress(newProgress);
                 while (progressEle.firstChild) {
                     progressEle.removeChild(progressEle.firstChild);
@@ -255,7 +255,7 @@ const Idea = ({ thisIdea }) => {
         return () => progressEle.removeEventListener("click",handleClick);
     },[ideaProgress])
     const likeIdea = async () => {
-        const { data } = await axios.get(`http://localhost:3000/likeIdea/${idea._id}/${username}`);
+        const { data } = await axios.get(`http://172.16.17.183:3000/likeIdea/${idea._id}/${username}`);
         if (data.liked) {
             setNoOfLikes(noOfLikes-1);
         }
@@ -281,7 +281,7 @@ const Idea = ({ thisIdea }) => {
                     color: "white",
                     duration: 0.3,
                 })
-                const { data } = await axios.get(`http://localhost:3000/likedBy/${idea._id}`);
+                const { data } = await axios.get(`http://172.16.17.183:3000/likedBy/${idea._id}`);
                 const { likedBy } = data;
                 for (let user of likedBy) {
                     let thisUser = document.createElement("div");
@@ -316,14 +316,14 @@ const Idea = ({ thisIdea }) => {
         return () => likeEle.removeEventListener("click",getLikes);
     },[])
     return (
-        <div className="relative w-[302px] h-[450px] border-2 border-black border-solid backdrop-blur-sm rounded-2xl p-2 flex flex-col gap-2">
+        <div className="relative w-full sm:w-[302px] h-[500px] sm:h-[450px] border-2 border-black border-solid backdrop-blur-sm rounded-2xl p-2 flex flex-col gap-2">
             <div className="flex justify-center items-center relative border-b-2 border-b-black border-b-solid">
                 <img className="absolute left-1 -top-[6px] w-7 h-7 rounded-full border-2" src={profileImage} alt="profile"/>
                 <p>
                     {idea.title}
                 </p>
             </div>
-            <div className="w-full rounded-xl relative h-[280px] flex-shrink">
+            <div className="w-full rounded-xl relative h-[330px] sm:h-[280px] flex-shrink">
                 <img className="w-full h-full rounded-xl flex-shrink" src={idea.media} alt="media"/>
                 <div ref={categoryRef} className="category absolute top-2 left-2 px-2 py-1 bg-gray-600 rounded-xl w-[80px] h-[35px] cursor-pointer">
                     <p>Category</p>
@@ -332,7 +332,7 @@ const Idea = ({ thisIdea }) => {
                     <p>{username == ideaOf ? `${idea.intrested} Intrested` : intrested ? "Intrested" : "Intrested ?"}</p>
                 </div>
             </div>
-            <div className="flex flex-col gap-0 absolute w-[285px] bottom-7">
+            <div className="flex flex-col gap-0 absolute w-[95%] sm:w-[285px] bottom-7">
                 <p ref={descriptionRef} className="overflow-y-hidden border-2 border-black border-solid border-b-0 rounded-t-2xl p-[3px] leading-5 h-[50px] cursor-pointer absolute w-full bottom-[40px] flex flex-col gap-2">
                     {idea.description}
                 </p>

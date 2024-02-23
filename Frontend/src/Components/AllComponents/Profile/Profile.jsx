@@ -14,7 +14,7 @@ const Profile = () => {
     const [ideas, setIdeas] = useState([]);
     useEffect(() => {
         const getUsername = async () => {
-            const { data } = await axios.get("http://localhost:3000/activeUser",{
+            const { data } = await axios.get("http://172.16.17.183:3000/activeUser",{
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -25,17 +25,17 @@ const Profile = () => {
         };
         getUsername();
         const getUser = async () => {
-            const { data } = await axios.get(`http://localhost:3000/profile/${username}`);
+            const { data } = await axios.get(`http://172.16.17.183:3000/profile/${username}`);
             setUser(data);
         }
         getUser();
         const checkFollow = async () => {
-            const { data } = await axios.get(`http://localhost:3000/checkFollow/${activeUsername}/${username}`);
+            const { data } = await axios.get(`http://172.16.17.183:3000/checkFollow/${activeUsername}/${username}`);
             setFollowing(data.follow);
         }
         checkFollow();
         const getIdeas = async () => {
-            const { data } = await axios.get(`http://localhost:3000/ideas/${username}/${activeUsername}`);
+            const { data } = await axios.get(`http://172.16.17.183:3000/ideas/${username}/${activeUsername}`);
             setIdeas(data.ideas);
         }
         getIdeas();

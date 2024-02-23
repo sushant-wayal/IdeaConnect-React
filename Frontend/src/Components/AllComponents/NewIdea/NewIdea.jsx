@@ -9,7 +9,7 @@ const NewIdea = () => {
     const [username,setUsername] = useState("");
     useEffect(() => {
         const getUsername = async () => {
-            const { data } = await axios.get("http://localhost:3000/activeUser",{
+            const { data } = await axios.get("http://172.16.17.183:3000/activeUser",{
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -124,7 +124,7 @@ const NewIdea = () => {
     }
     const [media, setMedia] = useState("");
     const upload = async (formData) => {
-        const { data } = await axios.post("http://localhost:3000/upload",formData,{
+        const { data } = await axios.post("http://172.16.17.183:3000/upload",formData,{
             headers: {
                 "Content-Type": "multipart/form-data",
             }
@@ -165,7 +165,7 @@ const NewIdea = () => {
                 progress++;
             }
         }
-        const { data } = await axios.post("http://localhost:3000/publishIdea",{
+        const { data } = await axios.post("http://172.16.17.183:3000/publishIdea",{
             username,
             title,
             categories: categoriesList,

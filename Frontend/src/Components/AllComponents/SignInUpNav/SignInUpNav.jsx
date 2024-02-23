@@ -13,7 +13,7 @@ const SignInUpNav = () => {
     }
     const [seeing, setSeeing] = useState(false);
     return (
-        <div className="fixed -top-3 sm:top-0 w-full flex h-20 py-1 px-2 pr-5 justify-between items-center">
+        <div className="fixed top-0 sm:top-2 w-full flex h-12 py-1 px-2 pr-5 justify-between items-center z-50 bg-[#f8f8f8] sm:bg-transparent sm:z-0">
             <img className="w-[15vmax]" src="../../../../images/logo.png" alt="IdeaConnect"/>
             <div className="hidden sm:flex justify-center gap-10">
                 <NavLink className={({isActive}) => active(isActive)} to="/" > Sign In </NavLink>
