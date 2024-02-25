@@ -43,7 +43,7 @@ const Profile = () => {
     return (
         <div className="flex justify-end p-2">
             <SideNav/>
-            <div className="relative w-[calc(100vw*5.4/6.5)] flex flex-col justify-center gap-2">
+            <div className="relative w-[98vw] left-1 lg:left-0 lg:w-[calc(100vw*5.4/6.5)] flex flex-col justify-center gap-2">
                 <div className="border-2 border-black border-solid rounded-2xl p-2">
                     <div className="backdrop-blur-sm flex flex-col gap-1 items-center justify-center p-5 rounded-t-2xl relative">
                         <img className="object-cover h-32 w-32 rounded-full border-2 border-black border-solid" src={user.profileImage} alt="Profile Image"/>
@@ -69,12 +69,12 @@ const Profile = () => {
                         {activeUsername == username ?
                         <>
                             <Link className="absolute top-2 right-2 bg-gray-500 border-2 border-black border-solid py-1 px-2 rounded-2xl">Edit Profile</Link>
-                            <Link className="absolute top-48 right-1/4 bg-gray-500 border-2 border-black border-solid py-1 px-2 rounded-2xl" to="/newIdea">Publish New Idea</Link>
+                            <Link className="absolute top-36 right-1 lg:top-48 lg:right-1/4 bg-gray-500 border-2 border-black border-solid py-1 px-2 rounded-2xl" to="/newIdea">New Idea</Link>
                         </>
                         :
                         <>
-                            <button className="absolute top-48 right-[375px] bg-gray-500 border-2 border-black border-solid py-1 px-2 rounded-2xl">{following ? "Following" : "Follow"}</button>
-                            <Link className="absolute top-48 right-[275px] bg-gray-500 border-2 border-black border-solid py-1 px-2 rounded-2xl">Message</Link>
+                            <button className="absolute top-36 lg:top-48 right-1 lg:right-[375px] bg-gray-500 border-2 border-black border-solid py-1 px-2 rounded-2xl">{following ? "Following" : "Follow"}</button>
+                            <Link className="absolute top-36 lg:top-48 right-[90vw] translate-x-[100%] lg:translate-x-0 lg:right-[275px] bg-gray-500 border-2 border-black border-solid py-1 px-2 rounded-2xl">Message</Link>
                         </>
                         }
                     </div>

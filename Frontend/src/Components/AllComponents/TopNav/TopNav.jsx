@@ -3,10 +3,12 @@ import { useState } from "react"
 const TopNav = () => {
     const [prompt, setPrompt] = useState("");
     return (
-        <div className="fixed top-2 sm:top-0 sm:right-0 sm:w-[calc(100vw*(5.4/6.5))] w-[95vw] right-1/2 translate-x-1/2 sm:translate-x-0 sm:h-[calc(100vh/10)] h-20 px-2 py-1 flex flex-col sm:flex-row justify-between sm:items-center sm:m-2 border-2 border-black border-solid rounded-2xl backdrop-blur-sm">
+        <div className="fixed top-2 lg:top-0 lg:right-0 lg:w-[calc(100vw*(5.4/6.5))] w-[95vw] right-1/2 translate-x-1/2 lg:translate-x-0 lg:h-[calc(100vh/10)] px-2 py-1 flex flex-col lg:flex-row justify-between items-end lg:items-center lg:m-2 border-2 border-black border-solid rounded-2xl backdrop-blur-lg mb-2 z-40">
             <img className="w-[15vmax]" src="../../../../images/logo.png" alt="Logo"/>
-            <input className="bg-transparent border-2 border-black border-solid rounded-full pl-8 py-1" type="text" value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="Search Ideas"/>
-            <p className="absolute top-[44px] sm:top-6 right-[325px] sm:right-[250px]">🔎</p>
+            <div className="relative w-full lg:w-60">
+                <input className="bg-transparent border-2 border-black border-solid rounded-full pl-8 py-1 w-full" type="text" value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="Search Ideas"/>
+                <p className="absolute top-1/2 -translate-y-1/2 left-[min(10px,3%)]">🔎</p>
+            </div>
         </div>
     )
 }

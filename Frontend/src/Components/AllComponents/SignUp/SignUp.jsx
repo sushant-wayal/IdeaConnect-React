@@ -149,13 +149,13 @@ const SignUp = () => {
                         ))}
                     </select>
                     <div className="flex flex-col justify-center gap-8">
-                        <div className="flex flex-col sm:flex-row justify-start gap-1 sm:gap-3">
+                        <div className="flex flex-col xl:flex-row justify-start gap-1 md:gap-3">
                             <select value={countryCode} onChange={(e) => setCountryCode(e.target.value)} className="py-1 px-3 w-52 bg-gray-600 bg-opacity-80 border-2 border-black border-solid rounded-full">
                                 {countryCodes.map(thisCode => (
                                     <option disabled={thisCode[1]} key={thisCode[0]}>{thisCode[0]}</option>
                                 ))}
                             </select>
-                            <input value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="py-1 px-3 w-60 bg-gray-600 bg-opacity-80 border-2 border-black border-solid rounded-full placeholder:text-white placeholder:opacity-80" type="number" placeholder="Phone Number"/>
+                            <input value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="py-1 px-3 w-60 xl:w-1/2 bg-gray-600 bg-opacity-80 border-2 border-black border-solid rounded-full placeholder:text-white placeholder:opacity-80" type="number" placeholder="Phone Number"/>
                         </div>
                         <input value={email} onChange={(e) => setEmail(e.target.value)} className="py-1 px-3 w-60 bg-gray-600 bg-opacity-80 border-2 border-black border-solid rounded-full placeholder:text-white placeholder:opacity-80" type="email" placeholder="Email"/>
                     </div>

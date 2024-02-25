@@ -6,7 +6,7 @@ const Footer = ({ styling }) => {
             <div>
                 © IdeaConnect | 2024
             </div>
-            <div className="flex justify-center gap-28 sm:gap-10">
+            <div className="flex justify-between sm:justify-center sm:gap-10">
                 <Link to="/contactUs"> Contact Us </Link>
                 <Link to="/privacy"> Privacy </Link>
                 <Link to="/about"> About </Link>

@@ -33,15 +33,16 @@ const SideNav = () => {
     const [seeing, setSeeing] = useState(false);
     return (
         <>
-            <RiMenu3Line className="sm:hidden fixed right-5 top-4 z-50"/>
-            <div className="h-[calc(98vh)] fixed left-0 top-0 p-3 sm:flex flex-col justify-between w-[calc(100vw/6.5)] m-2 border-2 border-black border-solid rounded-2xl backdrop-blur-sm hidden" onClick={() => setSeeing(!seeing)}>
+            <RiMenu3Line onClick={() => setSeeing(!seeing)} className="lg:hidden fixed left-[4vw] top-4 z-50 cursor-pointer"/>
+            <div className={`lg:h-[calc(98vh)] fixed left-0 top-0 p-3 lg:flex flex-col justify-between lg:w-[calc(100vw/6.5)] m-2 border-2 border-black border-solid rounded-2xl backdrop-blur-sm ${!seeing ? "hidden" : "flex z-50 w-48 h-[90.5vh] overflow-y-scroll -left-2 rounded-e-0"}`}>
                 <div className="flex flex-col justify-center gap-5 w-full">
+                    <button onClick={() => setSeeing(false)} className="text-left lg:hidden">X</button>
                     <NavLink className={({isActive}) => active(isActive)} to="/ideas"> Feed </NavLink>
-                    <NavLink className={({isActive}) => active(isActive)} to="/myIdeas"> My Ideas </NavLink>
-                    <NavLink className={({isActive}) => active(isActive)} to="/invitedIdeas"> Invited Ideas </NavLink>
-                    <NavLink className={({isActive}) => active(isActive)} to="/exploreIdeas"> Explore Ideas </NavLink>
-                    <NavLink className={({isActive}) => active(isActive)} to="/collaboratedIdeas"> Collaborated Ideas </NavLink>
-                    <NavLink className={({isActive}) => active(isActive)} to="/intrestedIdeas"> Intrested Ideas </NavLink>
+                    <NavLink className={({isActive}) => active(isActive)} to="/myIdeas"> My <p className="hidden xl:inline-block">Ideas</p> </NavLink>
+                    <NavLink className={({isActive}) => active(isActive)} to="/invitedIdeas"> Invited <p className="hidden xl:inline-block">Ideas</p> </NavLink>
+                    <NavLink className={({isActive}) => active(isActive)} to="/exploreIdeas"> Explore <p className="hidden xl:inline-block">Ideas</p> </NavLink>
+                    <NavLink className={({isActive}) => active(isActive)} to="/collaboratedIdeas"> Collaborated <p className="hidden xl:inline-block">Ideas</p> </NavLink>
+                    <NavLink className={({isActive}) => active(isActive)} to="/intrestedIdeas"> Intrested <p className="hidden xl:inline-block">Ideas</p> </NavLink>
                 </div>
                 <div className="flex flex-col justify-center gap-5 w-full">
                     <button onClick={logout} className="p-1 border-2 border-black border-solid rounded-full text-center w-full"> Logout </button>
