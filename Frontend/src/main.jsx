@@ -4,6 +4,7 @@ import App from './App.jsx'
 import './global.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromChildren } from 'react-router-dom'
 import { 
+	Chats,
 	Ideas,
 	NewIdea,
 	Profile,
@@ -21,6 +22,7 @@ const router = createBrowserRouter(
 			<Route loader={getFeed} path="/ideas" element={<Ideas/>}/>
 			<Route path="/profile/:username" element={<Profile/>}/>
 			<Route path="/newIdea" element={<NewIdea/>}/>
+			<Route path="/chats" element={<Chats/>}/>
 		</Route>
 	)
 )
