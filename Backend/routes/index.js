@@ -10,6 +10,8 @@ const jwtSecret = "idea-Connect";
 const upload = require("./multer");
 const uploadOnCloudinary = require('./cloudinary');
 const fs = require("fs");
+const chatModel = require('./chat');
+const messageModel = require('./message');
 
 router.use(cors({ origin: '*' }));
 
@@ -123,6 +125,7 @@ router.get("/activeUser",(req,res,next) => {
 		return res.json({
 			authenticated: true,
 			username: decode.username,
+			userId: decode.userId,
 		})
 	})
 });
@@ -168,6 +171,65 @@ router.get("/userInfo/:userId", async (req,res) => {
 	const { userId } = req.params;
 	const user = await userModel.findById(userId);
 	res.json(user);
+})
+
+router.post("/follow/:followingUsername", isLoggedIn, async (req,res) => {
+	const { followingUsername } = req.params;
+	const { userId } = req.user;
+	const followingUser = await userModel.findOne({username: followingUsername});
+	const user = await userModel.findById(userId);
+	let index = user.followingList.indexOf(followingUser._id);
+	if (index == -1) {
+		user.followingList.unshift(followingUser._id);
+		user.following++;
+		followingUser.followerList.unshift(user._id);
+		followingUser.followers++;
+		let add = true;
+		for (let chatId of user.chats) {
+			const chat = await chatModel.findById(chatId);
+			const { members } = chat;
+			if (members.length == 2) {
+				if ((members[0].userId.toString() == userId.toString() && members[1].userId.toString() == followingUser._id.toString()) || (members[1].userId.toString() == userId.toString() && members[0].userId.toString() == followingUser._id.toString())) {
+					add = false;
+					break;
+				}
+			}
+		}
+		if (add) {
+			const newChat = await chatModel.create({
+				members: [
+					{
+						userId,
+						profileImage: user.profileImage,
+						firstName: user.firstName,
+						lastName: user.lastName,
+						username: user.username,
+					},
+					{
+						userId: followingUser._id,
+						profileImage: followingUser.profileImage,
+						firstName: followingUser.firstName,
+						lastName: followingUser.lastName,
+						username: followingUser.username,
+					}
+				]
+			})
+			user.chats.unshift(newChat._id);
+			followingUser.chats.unshift(newChat._id);
+		}
+	}
+	else {
+		user.followingList.splice(index,1);
+		user.following--;
+		followingUser.followerList.splice(followingUser.followerList.indexOf(userId),1);
+		followingUser.followers--;
+	}
+	await user.save();
+	await followingUser.save()
+	res.json({
+		authenticated: true,
+		newFollowing: user.following,
+	})
 })
 
 router.get("/checkFollow/:activeUsername/:username", async (req,res) => {
@@ -306,6 +368,33 @@ router.get("/likedBy/:ideaId",async (req,res) => {
 	}
 	res.json({
 		likedBy,
+	})
+})
+
+router.get("/chats", isLoggedIn, async (req,res) => {
+	const { userId } = req.user;
+	const user = await userModel.findById(userId);
+	let chats = [];
+	for (let chatId of user.chats) {
+		chats.push(await chatModel.findById(chatId));
+	}
+	res.json({
+		authenticated: true,
+		chats,
+	})
+})
+
+router.get("/messages/:chatId", isLoggedIn, async (req,res) => {
+	const { chatId } = req.params
+	const chat = await chatModel.findById(chatId);
+	let messages = [];
+	for (let messageId of chat.messages) {
+		const message = await messageModel.findById(messageId);
+		messages.push(message);
+	}
+	res.json({
+		authenticated: true,
+		messages,
 	})
 })
 

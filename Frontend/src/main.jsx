@@ -13,6 +13,7 @@ import {
 } from './Components/index.js'
 import { fecthData } from './Components/AllComponents/SignUp/SignUp.jsx'
 import { getFeed } from './Components/AllComponents/Ideas/Ideas.jsx'
+import { getChats } from './Components/AllComponents/Chats/Chats.jsx'
 
 const router = createBrowserRouter(
 	createRoutesFromChildren(
@@ -22,7 +23,7 @@ const router = createBrowserRouter(
 			<Route loader={getFeed} path="/ideas" element={<Ideas/>}/>
 			<Route path="/profile/:username" element={<Profile/>}/>
 			<Route path="/newIdea" element={<NewIdea/>}/>
-			<Route path="/chats" element={<Chats/>}/>
+			<Route loader={getChats} path="/chats" element={<Chats/>}/>
 		</Route>
 	)
 )

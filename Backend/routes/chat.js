@@ -3,13 +3,18 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://127.0.0.1:27017/ideaConnect");
 
 const chatSchema = mongoose.Schema({
-    sender: {
-        type: mongoose.Schema.ObjectId,
-        ref: "user",
-    },
-    reciver: {
-        type: mongoose.Schema.ObjectId,
-        ref: "user",
+    members: [{
+        userId: {
+            type: mongoose.Schema.ObjectId,
+            ref: "user",
+        },
+        profileImage: String,
+        firstName: String,
+        lastName: String,
+    }],
+    lastMessage: {
+        type: String,
+        default: "No Messages Yet",
     },
     messages: [
         {

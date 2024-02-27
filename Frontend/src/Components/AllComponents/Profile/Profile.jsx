@@ -12,6 +12,7 @@ const Profile = () => {
     const [user, setUser] = useState({});
     const [following, setFollowing] = useState(false);
     const [ideas, setIdeas] = useState([]);
+    const [userFollowers, setUserFollowers] = useState(user.followers);
     useEffect(() => {
         const getUsername = async () => {
             const { data } = await axios.get("http://172.16.17.183:3000/activeUser",{
@@ -27,6 +28,7 @@ const Profile = () => {
         const getUser = async () => {
             const { data } = await axios.get(`http://172.16.17.183:3000/profile/${username}`);
             setUser(data);
+            setUserFollowers(user.followers);
         }
         getUser();
         const checkFollow = async () => {
@@ -39,7 +41,24 @@ const Profile = () => {
             setIdeas(data.ideas);
         }
         getIdeas();
-    },[activeUsername, following, username])
+    },[activeUsername, username])
+    const follow = async () => {
+        const { data } = await axios.post(`http://172.16.17.183:3000/follow/${user.username}`,{},{
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            }
+        });
+        if (data.authenticated) {
+            if (following) {
+                setUserFollowers(prev => prev-1);
+                setFollowing(false);
+            }
+            else {
+                setUserFollowers(prev => prev+1);
+                setFollowing(true);
+            }
+        }
+    };
     return (
         <div className="flex justify-end p-2">
             <SideNav/>
@@ -51,7 +70,7 @@ const Profile = () => {
                         <div className="flex justify-center gap-5">
                             <div className="w-24 flex flex-col justify-center items-center gap-px p-px rounded-2xl border-2 border-black border-solid">
                                 <p>Followers</p>
-                                <p>{user.followers}</p>
+                                <p>{userFollowers}</p>
                             </div>
                             <div className="w-24 flex flex-col justify-center items-center gap-px p-px rounded-2xl border-2 border-black border-solid">
                                 <p>Following</p>
@@ -73,7 +92,7 @@ const Profile = () => {
                         </>
                         :
                         <>
-                            <button className="absolute top-36 lg:top-48 right-1 lg:right-[375px] bg-gray-500 border-2 border-black border-solid py-1 px-2 rounded-2xl">{following ? "Following" : "Follow"}</button>
+                            <button onClick={follow} className="absolute top-36 lg:top-48 right-1 lg:right-[375px] bg-gray-500 border-2 border-black border-solid py-1 px-2 rounded-2xl">{following ? "Following" : "Follow"}</button>
                             <Link className="absolute top-36 lg:top-48 right-[90vw] translate-x-[100%] lg:translate-x-0 lg:right-[275px] bg-gray-500 border-2 border-black border-solid py-1 px-2 rounded-2xl">Message</Link>
                         </>
                         }

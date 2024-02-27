@@ -4,11 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const flash = require("connect-flash");
+const http = require('http');
+const { Server } = require('socket.io');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const passport = require('passport');
 var expressSession = require('express-session');
+const messageModel = require('./routes/message');
+const chatModel = require('./routes/chat');
 var app = express();
 
 // view engine setup
@@ -53,5 +57,41 @@ app.use(function(err, req, res, next) {
 	res.render('error');
 });
 
+const server = http.createServer(app);
+const io = new Server(server,{
+	cors: {
+		origin: "*",
+	}
+});
+
+io.on('connection', (socket) => {
+  console.log(`user id :${socket.id}`);
+  socket.on('sendMessage', async (data) => {
+	const newMessage = await messageModel.create(data);
+	const chat = await chatModel.findById(data.reciver);
+	chat.messages.push(newMessage._id);
+	chat.lastMessage = data.message;
+	await chat.save();
+	const room = data.reciver;
+	socket.to(room).emit("reciveMessage",{room, message: newMessage});
+    console.log("Message is",data.message);
+	console.log("Room is",data.room);
+  });
+
+  socket.on("joinRoom",(room) => {
+	socket.join(room);
+	console.log("Room",room)
+  })
+
+  // Handle disconnection
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
+
+const PORT = process.env.PORT || 3001;
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 module.exports = app;

@@ -41,7 +41,11 @@ const userSchema = mongoose.Schema({
             type: mongoose.Schema.ObjectId,
             ref: "idea",
         }
-    ]
+    ],
+    chats: [{
+        type: mongoose.Schema.ObjectId,
+        ref: "chat",
+    }],
 })
 
 userSchema.plugin(plm);

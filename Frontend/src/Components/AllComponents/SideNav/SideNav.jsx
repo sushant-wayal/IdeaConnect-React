@@ -43,6 +43,7 @@ const SideNav = () => {
                     <NavLink className={({isActive}) => active(isActive)} to="/exploreIdeas"> Explore <p className="hidden xl:inline-block">Ideas</p> </NavLink>
                     <NavLink className={({isActive}) => active(isActive)} to="/collaboratedIdeas"> Collaborated <p className="hidden xl:inline-block">Ideas</p> </NavLink>
                     <NavLink className={({isActive}) => active(isActive)} to="/intrestedIdeas"> Intrested <p className="hidden xl:inline-block">Ideas</p> </NavLink>
+                    <NavLink className={({isActive}) => active(isActive)} to="/chats"> Chats </NavLink>
                 </div>
                 <div className="flex flex-col justify-center gap-5 w-full">
                     <button onClick={logout} className="p-1 border-2 border-black border-solid rounded-full text-center w-full"> Logout </button>
